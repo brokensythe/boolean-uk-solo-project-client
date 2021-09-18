@@ -205,6 +205,174 @@ const INITIAL_BOARD = [
     }]
 ]
 
+const pieceMoves = {
+    "pawn": [
+        { x: 0, y: 1}
+    ],
+    "king": [
+        // forward movement
+        { x: 0, y: 1},
+        // backward movement
+        { x: 0, y: -1},
+        // move right
+        { x: 1, y: 0},
+        // move left
+        { x: -1, y: 0},
+        // forward right
+        { x: 1, y: 1},
+        // forward left
+        { x: -1, y: 1},
+        // backward left
+        { x: -1, y: -1},
+        // backward right
+        { x: 1, y: -1}
+    ],
+    "knight": [
+        { x: 1, y: 2},
+        { x: 2, y: 1},
+        { x: 2, y: -1},
+        { x: 1, y: -2},
+        { x: -1, y: -2},
+        { x: -2, y: -1},
+        { x: -2, y: 1},
+        { x: -1, y: 2}
+    ],
+    "bishop": [
+        // forward right
+        { x: 1, y: 1},
+        { x: 2, y: 2},
+        { x: 3, y: 3},
+        { x: 4, y: 4},
+        { x: 5, y: 5},
+        { x: 6, y: 6},
+        { x: 7, y: 7},
+        // backwards left
+        { x: -1, y: -1},
+        { x: -2, y: -2},
+        { x: -3, y: -3},
+        { x: -4, y: -4},
+        { x: -5, y: -5},
+        { x: -6, y: -6},
+        { x: -7, y: -7},
+        // forward left
+        { x: -1, y: 1},
+        { x: -2, y: 2},
+        { x: -3, y: 3},
+        { x: -4, y: 4},
+        { x: -5, y: 5},
+        { x: -6, y: 6},
+        { x: -7, y: 7},
+        // backwards right
+        { x: 1, y: -1},
+        { x: 2, y: -2},
+        { x: 3, y: -3},
+        { x: 4, y: -4},
+        { x: 5, y: -5},
+        { x: 6, y: -6},
+        { x: 7, y: -7}
+    ],
+    "rook": [
+        // straight ahead
+        { x: 0, y: 1},
+        { x: 0, y: 2},
+        { x: 0, y: 3},
+        { x: 0, y: 4},
+        { x: 0, y: 5},
+        { x: 0, y: 6},
+        { x: 0, y: 7},
+        // straight back
+        { x: 0, y: -1},
+        { x: 0, y: -2},
+        { x: 0, y: -3},
+        { x: 0, y: -4},
+        { x: 0, y: -5},
+        { x: 0, y: -6},
+        { x: 0, y: -7},
+        // move left
+        { x: -1, y: 0},
+        { x: -2, y: 0},
+        { x: -3, y: 0},
+        { x: -4, y: 0},
+        { x: -5, y: 0},
+        { x: -6, y: 0},
+        { x: -7, y: 0},
+        // move right
+        { x: 1, y: 0},
+        { x: 2, y: 0},
+        { x: 3, y: 0},
+        { x: 4, y: 0},
+        { x: 5, y: 0},
+        { x: 6, y: 0},
+        { x: 7, y: 0}
+    ],
+    "queen": [
+        // forward right
+        { x: 1, y: 1},
+        { x: 2, y: 2},
+        { x: 3, y: 3},
+        { x: 4, y: 4},
+        { x: 5, y: 5},
+        { x: 6, y: 6},
+        { x: 7, y: 7},
+        // backwards left
+        { x: -1, y: -1},
+        { x: -2, y: -2},
+        { x: -3, y: -3},
+        { x: -4, y: -4},
+        { x: -5, y: -5},
+        { x: -6, y: -6},
+        { x: -7, y: -7},
+        // forward left
+        { x: -1, y: 1},
+        { x: -2, y: 2},
+        { x: -3, y: 3},
+        { x: -4, y: 4},
+        { x: -5, y: 5},
+        { x: -6, y: 6},
+        { x: -7, y: 7},
+        // backwards right
+        { x: 1, y: -1},
+        { x: 2, y: -2},
+        { x: 3, y: -3},
+        { x: 4, y: -4},
+        { x: 5, y: -5},
+        { x: 6, y: -6},
+        { x: 7, y: -7},
+        // straight ahead
+        { x: 0, y: 1},
+        { x: 0, y: 2},
+        { x: 0, y: 3},
+        { x: 0, y: 4},
+        { x: 0, y: 5},
+        { x: 0, y: 6},
+        { x: 0, y: 7},
+        // straight back
+        { x: 0, y: -1},
+        { x: 0, y: -2},
+        { x: 0, y: -3},
+        { x: 0, y: -4},
+        { x: 0, y: -5},
+        { x: 0, y: -6},
+        { x: 0, y: -7},
+        // move left
+        { x: -1, y: 0},
+        { x: -2, y: 0},
+        { x: -3, y: 0},
+        { x: -4, y: 0},
+        { x: -5, y: 0},
+        { x: -6, y: 0},
+        { x: -7, y: 0},
+        // move right
+        { x: 1, y: 0},
+        { x: 2, y: 0},
+        { x: 3, y: 0},
+        { x: 4, y: 0},
+        { x: 5, y: 0},
+        { x: 6, y: 0},
+        { x: 7, y: 0}
+    ]
+}
+
 const Container = styled.div`
     height: 100vh;
     display: grid;
@@ -289,176 +457,29 @@ function GameBoardPage() {
 
     const [board, setBoard] = useState(INITIAL_BOARD)
 
-    function movePiece({ board, rankIndex, fileIndex }) {
-        const updatedBoard = JSON.parse(JSON.stringify(board))
-
-        const pieceMoves = {
-            "pawn": [
-                { x: 0, y: 1}
-            ],
-            "king": [
-                // forward movement
-                { x: 0, y: 1},
-                // backward movement
-                { x: 0, y: -1},
-                // move right
-                { x: 1, y: 0},
-                // move left
-                { x: -1, y: 0},
-                // forward right
-                { x: 1, y: 1},
-                // forward left
-                { x: -1, y: 1},
-                // backward left
-                { x: -1, y: -1},
-                // backward right
-                { x: 1, y: -1}
-            ],
-            "knight": [
-                { x: 1, y: 2},
-                { x: 2, y: 1},
-                { x: 2, y: -1},
-                { x: 1, y: -2},
-                { x: -1, y: -2},
-                { x: -2, y: -1},
-                { x: -2, y: 1},
-                { x: -1, y: 2}
-            ],
-            "bishop": [
-                // forward right
-                { x: 1, y: 1},
-                { x: 2, y: 2},
-                { x: 3, y: 3},
-                { x: 4, y: 4},
-                { x: 5, y: 5},
-                { x: 6, y: 6},
-                { x: 7, y: 7},
-                // backwards left
-                { x: -1, y: -1},
-                { x: -2, y: -2},
-                { x: -3, y: -3},
-                { x: -4, y: -4},
-                { x: -5, y: -5},
-                { x: -6, y: -6},
-                { x: -7, y: -7},
-                // forward left
-                { x: -1, y: 1},
-                { x: -2, y: 2},
-                { x: -3, y: 3},
-                { x: -4, y: 4},
-                { x: -5, y: 5},
-                { x: -6, y: 6},
-                { x: -7, y: 7},
-                // backwards right
-                { x: 1, y: -1},
-                { x: 2, y: -2},
-                { x: 3, y: -3},
-                { x: 4, y: -4},
-                { x: 5, y: -5},
-                { x: 6, y: -6},
-                { x: 7, y: -7}
-            ],
-            "rook": [
-                // straight ahead
-                { x: 0, y: 1},
-                { x: 0, y: 2},
-                { x: 0, y: 3},
-                { x: 0, y: 4},
-                { x: 0, y: 5},
-                { x: 0, y: 6},
-                { x: 0, y: 7},
-                // straight back
-                { x: 0, y: -1},
-                { x: 0, y: -2},
-                { x: 0, y: -3},
-                { x: 0, y: -4},
-                { x: 0, y: -5},
-                { x: 0, y: -6},
-                { x: 0, y: -7},
-                // move left
-                { x: -1, y: 0},
-                { x: -2, y: 0},
-                { x: -3, y: 0},
-                { x: -4, y: 0},
-                { x: -5, y: 0},
-                { x: -6, y: 0},
-                { x: -7, y: 0},
-                // move right
-                { x: 1, y: 0},
-                { x: 2, y: 0},
-                { x: 3, y: 0},
-                { x: 4, y: 0},
-                { x: 5, y: 0},
-                { x: 6, y: 0},
-                { x: 7, y: 0}
-            ],
-            "queen": [
-                // forward right
-                { x: 1, y: 1},
-                { x: 2, y: 2},
-                { x: 3, y: 3},
-                { x: 4, y: 4},
-                { x: 5, y: 5},
-                { x: 6, y: 6},
-                { x: 7, y: 7},
-                // backwards left
-                { x: -1, y: -1},
-                { x: -2, y: -2},
-                { x: -3, y: -3},
-                { x: -4, y: -4},
-                { x: -5, y: -5},
-                { x: -6, y: -6},
-                { x: -7, y: -7},
-                // forward left
-                { x: -1, y: 1},
-                { x: -2, y: 2},
-                { x: -3, y: 3},
-                { x: -4, y: 4},
-                { x: -5, y: 5},
-                { x: -6, y: 6},
-                { x: -7, y: 7},
-                // backwards right
-                { x: 1, y: -1},
-                { x: 2, y: -2},
-                { x: 3, y: -3},
-                { x: 4, y: -4},
-                { x: 5, y: -5},
-                { x: 6, y: -6},
-                { x: 7, y: -7},
-                // straight ahead
-                { x: 0, y: 1},
-                { x: 0, y: 2},
-                { x: 0, y: 3},
-                { x: 0, y: 4},
-                { x: 0, y: 5},
-                { x: 0, y: 6},
-                { x: 0, y: 7},
-                // straight back
-                { x: 0, y: -1},
-                { x: 0, y: -2},
-                { x: 0, y: -3},
-                { x: 0, y: -4},
-                { x: 0, y: -5},
-                { x: 0, y: -6},
-                { x: 0, y: -7},
-                // move left
-                { x: -1, y: 0},
-                { x: -2, y: 0},
-                { x: -3, y: 0},
-                { x: -4, y: 0},
-                { x: -5, y: 0},
-                { x: -6, y: 0},
-                { x: -7, y: 0},
-                // move right
-                { x: 1, y: 0},
-                { x: 2, y: 0},
-                { x: 3, y: 0},
-                { x: 4, y: 0},
-                { x: 5, y: 0},
-                { x: 6, y: 0},
-                { x: 7, y: 0}
-            ]
+    function handleDrop(event, fileIndex, rankIndex) {
+        const data = event.dataTransfer.getData("Co-Ordinates")
+        const x = Number(data.split(",")[0])
+        const y =Number(data.split(",")[1])
+        const piece =data.split(",")[2]
+        const moveKey = Object.keys(pieceMoves).find(key=>piece.includes(key))
+        for (const offset of pieceMoves[moveKey]) {
+            if (piece.includes("white") ? x + offset.x === fileIndex && y - offset.y === rankIndex : x + offset.x === fileIndex && y + offset.y === rankIndex) {
+                const updatedBoard = JSON.parse(JSON.stringify(board))
+                const squareToMovePieceTo = updatedBoard[rankIndex][fileIndex]
+                const squareToRemovePieceFrom = updatedBoard[y][x]
+                console.log("square details", squareToMovePieceTo.piece, squareToMovePieceTo.position);
+                squareToMovePieceTo.piece = piece
+                squareToRemovePieceFrom.piece = ""
+                setBoard(updatedBoard)
+                break
+            }
         }
+    }
+
+    function handleDragStart(event, fileIndex, rankIndex, piece) {
+        console.log("dragstart", fileIndex)
+        event.dataTransfer.setData("Co-Ordinates", `${fileIndex},${rankIndex},${piece}`)
     }
 
     return (
@@ -467,67 +488,130 @@ function GameBoardPage() {
                 {
                     board.map((rank, rankIndex) => rank.map((square, fileIndex) => {
                         if (square.piece === "black rook") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/gi.php?type=1&id=3400&i=1"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/gi.php?type=1&id=3400&i=1"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "black knight") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3402_black-knight.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3402_black-knight.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "black bishop") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3401_black-bishop.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3401_black-bishop.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "black queen") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3399_black-queen.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3399_black-queen.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "black king") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3398_black-king.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3398_black-king.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "black pawn") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3403_black-pawn.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3403_black-pawn.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "white pawn") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3409_white-pawn.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3409_white-pawn.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "white rook") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3406_white-rook.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3406_white-rook.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "white knight") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3408_white-knight.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3408_white-knight.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "white bishop") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3407_white-bishop.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3407_white-bishop.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "white queen") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3405_white-queen.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3405_white-queen.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         if (square.piece === "white king") {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3404_white-king.png"} alt={square.piece}/>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position}>
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3404_white-king.png"} alt={square.piece} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                }} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
                         else {
-                            return <Square rank={rankIndex} file={fileIndex} piece={square.piece}>
+                            return <Square rank={rankIndex} file={fileIndex} key={square.position} onDrop={(e)=>{
+                                e.preventDefault()
+                                handleDrop(e, fileIndex, rankIndex)
+                            }} onDragOver={e=>e.preventDefault()}>
 
                             </Square>
                         }
