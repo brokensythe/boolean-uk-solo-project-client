@@ -4,53 +4,101 @@ import "../styles/GameBoardPage.css"
 
 const INITIAL_BOARD = [
     [{
-        piece: "black rook",
+        piece: {
+            name: "black rook",
+            moves: 0
+        },
         position: "A8"
     },{
-        piece: "black knight",
+        piece: {
+            name: "black knight",
+            moves: 0
+        },
         position: "B8"
     },{
-        piece: "black bishop",
+        piece: {
+            name: "black bishop",
+            moves: 0
+        },
         position: "C8"
     },{
-        piece: "black queen",
+        piece: {
+            name: "black queen",
+            moves: 0
+        },
         position: "D8"
     },{
-        piece: "black king",
+        piece: {
+            name: "black king",
+            moves: 0
+        },
         position: "E8"
     },{
-        piece: "black bishop",
+        piece: {
+            name: "black bishop",
+            moves: 0
+        },
         position: "F8"
     },{
-        piece: "black knight",
+        piece: {
+            name: "black knight",
+            moves: 0
+        },
         position: "G8"
     },{
-        piece: "black rook",
+        piece: {
+            name: "black rook",
+            moves: 0
+        },
         position: "H8"
     }],
     [{
-        piece: "black pawn",
+        piece: {
+            name: "black pawn",
+            moves: 0
+        },
         position: "A7"
     },{
-        piece: "black pawn",
+        piece: {
+            name: "black pawn",
+            moves: 0
+        },
         position: "B7"
     },{
-        piece: "black pawn",
+        piece: {
+            name: "black pawn",
+            moves: 0
+        },
         position: "C7"
     },{
-        piece: "black pawn",
+        piece: {
+            name: "black pawn",
+            moves: 0
+        },
         position: "D7"
     },{
-        piece: "black pawn",
+        piece: {
+            name: "black pawn",
+            moves: 0
+        },
         position: "E7"
     },{
-        piece: "black pawn",
+        piece: {
+            name: "black pawn",
+            moves: 0
+        },
         position: "F7"
     },{
-        piece: "black pawn",
+        piece: {
+            name: "black pawn",
+            moves: 0
+        },
         position: "G7"
     },{
-        piece: "black pawn",
+        piece: {
+            name: "black pawn",
+            moves: 0
+        },
         position: "H7"
     }],
     [{
@@ -154,53 +202,101 @@ const INITIAL_BOARD = [
         position: "H3"
     }],
     [{
-        piece: "white pawn",
+        piece: {
+            name: "white pawn",
+            moves: 0
+        },
         position: "A2" 
     },{
-        piece: "white pawn",
+        piece: {
+            name: "white pawn",
+            moves: 0
+        },
         position: "B2" 
     },{
-        piece: "white pawn",
+        piece: {
+            name: "white pawn",
+            moves: 0
+        },
         position: "C2" 
     },{
-        piece: "white pawn",
+        piece: {
+            name: "white pawn",
+            moves: 0
+        },
         position: "D2" 
     },{
-        piece: "white pawn",
+        piece: {
+            name: "white pawn",
+            moves: 0
+        },
         position: "E2" 
     },{
-        piece: "white pawn",
+        piece: {
+            name: "white pawn",
+            moves: 0
+        },
         position: "F2" 
     },{
-        piece: "white pawn",
+        piece: {
+            name: "white pawn",
+            moves: 0
+        },
         position: "G2" 
     },{
-        piece: "white pawn",
+        piece: {
+            name: "white pawn",
+            moves: 0
+        },
         position: "H2" 
     }],
     [{
-        piece: "white rook",
+        piece: {
+            name: "white rook",
+            moves: 0
+        },
         position: "A1"
     },{
-        piece: "white knight",
+        piece: {
+            name: "white knight",
+            moves: 0
+        },
         position: "B1"  
     },{
-        piece: "white bishop",
+        piece: {
+            name: "white bishop",
+            moves: 0
+        },
         position: "C1"  
     },{
-        piece: "white queen",
+        piece: {
+            name: "white queen",
+            moves: 0
+        },
         position: "D1"  
     },{
-        piece: "white king",
+        piece: {
+            name: "white king",
+            moves: 0
+        },
         position: "E1" 
     },{
-        piece: "white bishop",
+        piece: {
+            name: "white bishop",
+            moves: 0
+        },
         position: "F1" 
     },{
-        piece: "white knight",
+        piece: {
+            name: "white knight",
+            moves: 0
+        },
         position: "G1" 
     },{
-        piece: "white rook",
+        piece: {
+            name: "white rook",
+            moves: 0
+        },
         position: "H1"
     }]
 ]
@@ -373,6 +469,8 @@ const pieceMoves = {
     ]
 }
 
+const moveHistory = []
+
 const Container = styled.div`
     height: 100vh;
     display: grid;
@@ -460,25 +558,139 @@ function GameBoardPage() {
     function handleDrop(event, fileIndex, rankIndex) {
         const data = event.dataTransfer.getData("Co-Ordinates")
         const x = Number(data.split(",")[0])
-        const y =Number(data.split(",")[1])
-        const piece =data.split(",")[2]
+        const y = Number(data.split(",")[1])
+        const piece = data.split(",")[2]
         const moveKey = Object.keys(pieceMoves).find(key=>piece.includes(key))
-        for (const offset of pieceMoves[moveKey]) {
+        if (piece.includes("pawn")) {
+            let pawnMoves = [...pieceMoves[moveKey]]
+            const lastMovePiece = moveHistory.length > 0 && moveHistory[moveHistory.length - 1].pieceMoved
+            const rankMovedTo = moveHistory.length > 0 && Number(moveHistory[moveHistory.length - 1].squareMovedTo.split("")[1])
+            const rankMovedFrom = moveHistory.length > 0 && Number(moveHistory[moveHistory.length - 1].squareMovedFrom.split("")[1])
+            const file = moveHistory.length > 0 && moveHistory[moveHistory.length - 1].squareMovedFrom.split("")[0]
+            const fileToIndexNo = {
+                "A" : 0,
+                "B" : 1,
+                "C" : 2,
+                "D" : 3,
+                "E" : 4,
+                "F" : 5,
+                "G" : 6,
+                "H" : 7,
+            }
+
+            // take diagonal right
+            if (piece.includes("white") ? board[y - 1][x + 1].piece.name : board[y + 1][x + 1].piece.name) {
+                pawnMoves.push({ x: 1, y: 1 })
+            }
+            // take diagonal left
+            if (piece.includes("white") ? board[y - 1][x - 1].piece.name : board[y + 1][x - 1].piece.name) {
+                pawnMoves.push({ x: -1, y: 1 })
+            }
+            // move two spaces first move
+            if (piece.includes("white") ? !board[y][x].piece.moves && !board[y - 2][x].piece.name : !board[y][x].piece.moves && !board[y + 2][x].piece.name) {
+                pawnMoves.push({ x: 0, y: 2 })
+            }
+            // restrictions
+            if (piece.includes("white") ? board[y - 1][x].piece.name : board[y + 1][x].piece.name) {
+                console.log(board[y - 1][x].piece.name);
+                pawnMoves = pawnMoves.filter(offset => offset.x)
+            }
+            if (piece.includes("white") ? y === 3 && lastMovePiece === "black pawn" && ( board[y][x + 1].piece.name === "black pawn" || board[y][x - 1].piece.name === "black pawn" ) && rankMovedFrom - rankMovedTo === 2 : y === 4 && lastMovePiece === "white pawn" && ( board[y][x + 1].piece.name === "white pawn" || board[y][x -1].piece.name === "white pawn" ) && rankMovedTo - rankMovedFrom === 2) {
+                const opponentFile = fileToIndexNo[file]
+                if (x > opponentFile) pawnMoves.push({ x: -1, y: 1 })
+                if (x < opponentFile) pawnMoves.push({ x: 1, y: 1 })
+
+                for (const offset of pawnMoves) {
+                    if (piece.includes("white") ? x + offset.x === fileIndex && y - offset.y === rankIndex : x + offset.x === fileIndex && y + offset.y === rankIndex) {
+                        const updatedBoard = JSON.parse(JSON.stringify(board))
+                        const squareToMovePieceTo = updatedBoard[rankIndex][fileIndex]
+                        const squareToRemovePieceFrom = updatedBoard[y][x]
+                        console.log("square details", squareToMovePieceTo.piece.name, squareToMovePieceTo.piece.moves, squareToMovePieceTo.position);
+                        squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
+                        if (piece.includes("white") ? fileIndex - x === -1 && y - rankIndex === 1 : fileIndex - x === -1 && rankIndex - y === 1) {
+                            const enPeasantSquare = updatedBoard[y][x - 1]
+                            moveHistory.push({
+                                pieceMoved: squareToRemovePieceFrom.piece.name,
+                                squareMovedTo: squareToMovePieceTo.position,
+                                pieceTaken: enPeasantSquare.piece.name,
+                                squareMovedFrom: squareToRemovePieceFrom.position
+                            })
+                            squareToRemovePieceFrom.piece = ""
+                            enPeasantSquare.piece = ""
+                            setBoard(updatedBoard)
+                            return
+                        }
+                        if (piece.includes("white") ? fileIndex - x === 1 && y - rankIndex === 1 : fileIndex - x === 1 && rankIndex - y === 1) {
+                            const enPeasantSquare = updatedBoard[y][x + 1]
+                            moveHistory.push({
+                                pieceMoved: squareToRemovePieceFrom.piece.name,
+                                squareMovedTo: squareToMovePieceTo.position,
+                                pieceTaken: enPeasantSquare.piece.name,
+                                squareMovedFrom: squareToRemovePieceFrom.position
+                            })
+                            squareToRemovePieceFrom.piece = ""
+                            enPeasantSquare.piece = ""
+                            setBoard(updatedBoard)
+                            return
+                        }
+                        moveHistory.push({
+                            pieceMoved: squareToRemovePieceFrom.piece.name,
+                            squareMovedTo: squareToMovePieceTo.position,
+                            pieceTaken: squareToMovePieceTo.piece.name,
+                            squareMovedFrom: squareToRemovePieceFrom.position
+                        })
+                        setBoard(updatedBoard)
+                        return
+                    }
+                }
+            }
+            for (const offset of pawnMoves) {
+                if (piece.includes("white") ? x + offset.x === fileIndex && y - offset.y === rankIndex : x + offset.x === fileIndex && y + offset.y === rankIndex) {
+                    const updatedBoard = JSON.parse(JSON.stringify(board))
+                    const squareToMovePieceTo = updatedBoard[rankIndex][fileIndex]
+                    const squareToRemovePieceFrom = updatedBoard[y][x]
+                    console.log("square details", squareToMovePieceTo.piece.name, squareToMovePieceTo.piece.moves, squareToMovePieceTo.position);
+                    moveHistory.push({
+                        pieceMoved: squareToRemovePieceFrom.piece.name,
+                        squareMovedTo: squareToMovePieceTo.position,
+                        pieceTaken: squareToMovePieceTo.piece.name,
+                        squareMovedFrom: squareToRemovePieceFrom.position
+                    })
+                    squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
+                    squareToRemovePieceFrom.piece = ""
+                    setBoard(updatedBoard)
+                    for (const item of moveHistory) {
+                        console.log(item);
+                    }
+                    return
+                }
+            }
+        }
+        else for (const offset of pieceMoves[moveKey]) {
             if (piece.includes("white") ? x + offset.x === fileIndex && y - offset.y === rankIndex : x + offset.x === fileIndex && y + offset.y === rankIndex) {
                 const updatedBoard = JSON.parse(JSON.stringify(board))
                 const squareToMovePieceTo = updatedBoard[rankIndex][fileIndex]
                 const squareToRemovePieceFrom = updatedBoard[y][x]
-                console.log("square details", squareToMovePieceTo.piece, squareToMovePieceTo.position);
-                squareToMovePieceTo.piece = piece
+                console.log("square details", squareToMovePieceTo.piece.name, squareToMovePieceTo.piece.moves, squareToMovePieceTo.position);
+                moveHistory.push({
+                    pieceMoved: squareToRemovePieceFrom.piece.name,
+                    squareMovedTo: squareToMovePieceTo.position,
+                    pieceTaken: squareToMovePieceTo.piece.name,
+                    squareMovedFrom: squareToRemovePieceFrom.position
+                })
+                squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
                 squareToRemovePieceFrom.piece = ""
                 setBoard(updatedBoard)
+                for (const item of moveHistory) {
+                    console.log(item);
+                }
                 break
             }
         }
     }
 
     function handleDragStart(event, fileIndex, rankIndex, piece) {
-        console.log("dragstart", fileIndex)
+        console.log("fileIndex", fileIndex, "rankIndex", rankIndex );
         event.dataTransfer.setData("Co-Ordinates", `${fileIndex},${rankIndex},${piece}`)
     }
 
@@ -487,120 +699,120 @@ function GameBoardPage() {
             <Board>
                 {
                     board.map((rank, rankIndex) => rank.map((square, fileIndex) => {
-                        if (square.piece === "black rook") {
+                        if (square.piece.name === "black rook") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/gi.php?type=1&id=3400&i=1"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/gi.php?type=1&id=3400&i=1"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "black knight") {
+                        if (square.piece.name === "black knight") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3402_black-knight.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3402_black-knight.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "black bishop") {
+                        if (square.piece.name === "black bishop") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3401_black-bishop.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3401_black-bishop.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "black queen") {
+                        if (square.piece.name === "black queen") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3399_black-queen.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3399_black-queen.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "black king") {
+                        if (square.piece.name === "black king") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3398_black-king.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3398_black-king.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "black pawn") {
+                        if (square.piece.name === "black pawn") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3403_black-pawn.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3403_black-pawn.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "white pawn") {
+                        if (square.piece.name === "white pawn") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3409_white-pawn.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3409_white-pawn.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "white rook") {
+                        if (square.piece.name === "white rook") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3406_white-rook.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3406_white-rook.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "white knight") {
+                        if (square.piece.name === "white knight") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3408_white-knight.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3408_white-knight.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "white bishop") {
+                        if (square.piece.name === "white bishop") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3407_white-bishop.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3407_white-bishop.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "white queen") {
+                        if (square.piece.name === "white queen") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3405_white-queen.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3405_white-queen.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
                             }} onDragOver={e=>e.preventDefault()}/>
                             </Square>
                         }
-                        if (square.piece === "white king") {
+                        if (square.piece.name === "white king") {
                             return <Square rank={rankIndex} file={fileIndex} key={square.position}>
-                                <Piece src={"https://www.symbols.com/images/symbol/1/3404_white-king.png"} alt={square.piece} draggable={true} onDragStart={e=>{
-                                    handleDragStart(e, fileIndex, rankIndex, square.piece)
+                                <Piece src={"https://www.symbols.com/images/symbol/1/3404_white-king.png"} alt={square.piece.name} draggable={true} onDragStart={e=>{
+                                    handleDragStart(e, fileIndex, rankIndex, square.piece.name)
                                 }} onDrop={(e)=>{
                                 e.preventDefault()
                                 handleDrop(e, fileIndex, rankIndex)
