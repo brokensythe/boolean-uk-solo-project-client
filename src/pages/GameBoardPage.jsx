@@ -4,7 +4,6 @@ import bishopMovement from "../bishopmoves";
 import { INITIAL_BOARD, pieceMoves } from "../constants";
 import pawnMovement from "../pawnmoves";
 import rookMovement from "../rookmoves";
-import "../styles/GameBoardPage.css"
 
 
 const moveHistory = []

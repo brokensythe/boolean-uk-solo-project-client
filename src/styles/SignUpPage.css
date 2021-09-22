@@ -1,0 +1,150 @@
+:root {
+    --indigo-dye: hsl(199, 84%, 40%);
+    --peach-crayola: hsl(346, 66%, 45%);
+    --mindaro: hsl(87, 100%, 25%);
+    --yellow: hsl(56, 100%, 66%)
+}
+
+.top-block {
+    grid-template-rows: 35vh 1fr 10vh;
+    display: grid;
+    min-height: 100vh;
+}
+
+header {
+    position: relative;
+}
+
+section {
+    position: relative;
+    display: grid;
+    align-items: center;
+    min-height: 400px;
+    padding: 100px 20vw;
+}
+
+.form-section {
+    position: relative;
+    min-height: 400px;
+    display: grid;
+    align-items: center;
+    padding: 0;
+}
+
+.form-content {
+    position: absolute;
+    place-self: center;
+    padding: 100px 20vw;
+}
+
+.indigo-dye {
+    background: var(--indigo-dye);
+}
+
+.old-lavender {
+    background: hsl(328, 24%, 41%);
+}
+
+.peach-crayola {
+    background: var(--peach-crayola);
+}
+
+.mindaro {
+    background: var(--mindaro);
+}
+
+.yellow {
+    background: var(--yellow);
+}
+
+.custom-shape-divider-top-1632298739 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1632298739 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 15vh;
+}
+
+.custom-shape-divider-top-1632298739 .shape-fill {
+    fill: var(--indigo-dye);
+}
+
+.custom-shape-divider-bottom-1632253433 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1632253433 svg {
+    position: relative;
+    display: block;
+    width: calc(300% + 1.3px);
+    height: 7vh;
+}
+
+.custom-shape-divider-bottom-1632253433 .shape-fill {
+    fill: var(--indigo-dye);
+}
+
+.custom-shape-divider-bottom-1632298379 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1632298379 svg {
+    position: relative;
+    display: block;
+    width: calc(109% + 1.3px);
+    height: 12vh;
+}
+
+.custom-shape-divider-bottom-1632298379 .shape-fill {
+    fill: var(--mindaro);
+}
+
+.custom-shape-divider-bottom-1632325280 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1632325280 svg {
+    position: relative;
+    display: block;
+    width: calc(145% + 1.3px);
+    height: 115px;
+}
+
+.custom-shape-divider-bottom-1632325280 .shape-fill {
+    fill: var(--yellow);
+}
+
+.animated-svg {
+    width: 100%;
+    height: 100%
+}
+
+.flip {
+    transform: rotate(180deg);
+}
