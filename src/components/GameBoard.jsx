@@ -8,11 +8,6 @@ import rookMovement from "../rookmoves";
 
 const moveHistory = []
 
-const Container = styled.div`
-    height: 100vh;
-    display: grid;
-`
-
 const Board = styled.div`
     display: grid;
     grid-template-columns: repeat(8, minmax(30px, 60px));
@@ -28,7 +23,7 @@ const Piece = styled.img`
     width: 100%
 `
 
-function GameBoardPage() {
+function GameBoard() {
 
     const [board, setBoard] = useState(INITIAL_BOARD)
 
@@ -61,7 +56,6 @@ function GameBoardPage() {
                 const squareToMovePieceTo = updatedBoard[rankIndex][fileIndex]
                 if (piece.includes("white") ? squareToMovePieceTo.piece && squareToMovePieceTo.piece.name.includes("white") : squareToMovePieceTo.piece && squareToMovePieceTo.piece.name.includes("black")) return
                 const squareToRemovePieceFrom = updatedBoard[y][x]
-                console.log("square details", squareToMovePieceTo.piece.name, squareToMovePieceTo.piece.moves, squareToMovePieceTo.position);
                 moveHistory.push({
                     pieceMoved: squareToRemovePieceFrom.piece.name,
                     squareMovedTo: squareToMovePieceTo.position,
@@ -71,21 +65,16 @@ function GameBoardPage() {
                 squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
                 squareToRemovePieceFrom.piece = ""
                 setBoard(updatedBoard)
-                for (const item of moveHistory) {
-                    console.log(item);
-                }
                 return
             }
         }
     }
 
     function handleDragStart(event, fileIndex, rankIndex, piece) {
-        console.log("fileIndex", fileIndex, "rankIndex", rankIndex );
         event.dataTransfer.setData("Co-Ordinates", `${fileIndex},${rankIndex},${piece}`)
     }
 
     return (
-        <Container>
             <Board>
                 {
                     board.map((rank, rankIndex) => rank.map((square, fileIndex) => {
@@ -220,8 +209,7 @@ function GameBoardPage() {
                     }))
                 }
             </Board>
-        </Container>
     )
 }
 
-export default GameBoardPage
+export default GameBoard

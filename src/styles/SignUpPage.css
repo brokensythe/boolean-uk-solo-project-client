@@ -30,7 +30,7 @@ header > section > a {
 
 header > section > a > h1 {
     display: grid;
-    grid-template-columns: 20vh 30vh;
+    grid-template-columns: 7vw 22vw;
     place-content: center;
 }
 
@@ -41,7 +41,8 @@ header > section > a > h1 > img {
 }
 
 header > section > a > h1 > p {
-    align-self: center;
+    place-self: center;
+    font-size: 3rem;
 }
 
 main {
@@ -52,6 +53,7 @@ section {
     position: relative;
     display: grid;
     align-items: center;
+    min-height: 2vh;
 }
 
 .form-section {
@@ -63,9 +65,9 @@ section {
 }
 
 .form-content {
-    position: absolute;
     place-self: center;
-    padding: 100px 20vw;
+    z-index: 1;
+    padding: 5vh 0;
 }
 
 .indigo-dye {
@@ -169,4 +171,8 @@ section {
 
 .custom-shape-divider-bottom-1632325280 .shape-fill {
     fill: var(--yellow);
+}
+
+footer {
+    text-align: center;
 }
