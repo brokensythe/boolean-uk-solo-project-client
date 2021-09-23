@@ -6,7 +6,7 @@
 }
 
 .top-block {
-    grid-template-rows: 35vh 1fr 10vh;
+    grid-template-rows: 27vh 1fr 10vh;
     display: grid;
     min-height: 100vh;
 }
@@ -15,17 +15,48 @@ header {
     position: relative;
 }
 
+header > section {
+    position: relative;
+    display: grid;
+    height: 80%;
+}
+
+header > section > a {
+    position: absolute;
+    place-self: center;
+    text-decoration: none;
+    color: #fff;
+}
+
+header > section > a > h1 {
+    display: grid;
+    grid-template-columns: 20vh 30vh;
+    place-content: center;
+}
+
+header > section > a > h1 > img {
+    height: 100%;
+    width: 100%;
+    object-fit: scale-down;
+}
+
+header > section > a > h1 > p {
+    align-self: center;
+}
+
+main {
+    display: grid;
+}
+
 section {
     position: relative;
     display: grid;
     align-items: center;
-    min-height: 400px;
-    padding: 100px 20vw;
 }
 
 .form-section {
     position: relative;
-    min-height: 400px;
+    min-height: 10vh;
     display: grid;
     align-items: center;
     padding: 0;
@@ -42,7 +73,7 @@ section {
 }
 
 .old-lavender {
-    background: hsl(328, 24%, 41%);
+    background: rgb(130, 79, 106);
 }
 
 .peach-crayola {
@@ -138,13 +169,4 @@ section {
 
 .custom-shape-divider-bottom-1632325280 .shape-fill {
     fill: var(--yellow);
-}
-
-.animated-svg {
-    width: 100%;
-    height: 100%
-}
-
-.flip {
-    transform: rotate(180deg);
 }
