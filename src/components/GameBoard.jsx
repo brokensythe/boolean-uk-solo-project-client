@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import bishopMovement from "../bishopmoves";
 import { pieceMoves } from "../constants";
@@ -9,13 +9,12 @@ import rookMovement from "../rookmoves";
 
 const Board = styled.div`
     display: grid;
-    grid-template-columns: repeat(8, minmax(30px, 60px));
-    grid-template-rows: repeat(8, minmax(30px, 60px));
+    grid-template-columns: repeat(8, 60px);
+    grid-template-rows: repeat(8, 60px);
 `
 
 const Square = styled.div`
     background-color: ${props => (!(props.rank % 2) && !(props.file % 2)) || ((props.rank % 2) && (props.file % 2)) ? "#eeaaba" : "#6a1529"};
-    color: black; 
 `
 
 const Piece = styled.img`
@@ -23,6 +22,15 @@ const Piece = styled.img`
 `
 
 function GameBoard({ gameId, board, setBoard, moveHistory }) {
+
+    const turn = useRef("white")
+
+    if (moveHistory.length) {
+        const lastPieceMoved = moveHistory[moveHistory.length - 1].pieceMoved
+
+        lastPieceMoved.includes("white") ? turn.current = "black" : turn.current = "white"
+    }
+
     useEffect(() => {
         fetch(GAMES + `/${gameId}`, {
             method: "PATCH",
@@ -53,6 +61,9 @@ function GameBoard({ gameId, board, setBoard, moveHistory }) {
         const y = Number(data.split(",")[1])
         const piece = data.split(",")[2]
         const moveKey = Object.keys(pieceMoves).find(key=>piece.includes(key))
+
+        if (!piece.includes(turn.current)) return
+
         if (piece.includes("pawn")) {
             pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fileIndex, rankIndex, setBoard })
             return
