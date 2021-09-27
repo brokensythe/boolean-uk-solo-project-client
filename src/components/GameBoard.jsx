@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import bishopMovement from "../bishopmoves";
-import { INITIAL_BOARD, pieceMoves } from "../constants";
+import { pieceMoves } from "../constants";
+import { BOARDS, GAMES } from "../fetchURLS";
 import pawnMovement from "../pawnmoves";
 import rookMovement from "../rookmoves";
 
-
-const moveHistory = []
 
 const Board = styled.div`
     display: grid;
@@ -15,7 +14,7 @@ const Board = styled.div`
 `
 
 const Square = styled.div`
-    background-color: ${props => (!(props.rank % 2) && !(props.file % 2)) || ((props.rank % 2) && (props.file % 2)) ? "#f0d9b5" : "#b58863"};
+    background-color: ${props => (!(props.rank % 2) && !(props.file % 2)) || ((props.rank % 2) && (props.file % 2)) ? "#eeaaba" : "#6a1529"};
     color: black; 
 `
 
@@ -23,9 +22,30 @@ const Piece = styled.img`
     width: 100%
 `
 
-function GameBoard() {
-
-    const [board, setBoard] = useState(INITIAL_BOARD)
+function GameBoard({ gameId, board, setBoard, moveHistory }) {
+    useEffect(() => {
+        fetch(GAMES + `/${gameId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify({
+                moves: moveHistory
+            })
+        })
+        if (moveHistory.length) {
+            fetch(BOARDS, {
+                method: "POST",
+                headers: {
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({
+                    board_info: board,
+                    game_id: Number(gameId)
+                })
+            })
+        }
+    }, [board, gameId])
 
     function handleDrop(event, fileIndex, rankIndex) {
         const data = event.dataTransfer.getData("Co-Ordinates")

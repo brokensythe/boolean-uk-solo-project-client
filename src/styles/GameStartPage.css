@@ -1,0 +1,15 @@
+main > .form-section > .form-content > button {
+    font-size: 1.5rem;
+    background-color: transparent;
+    border: 4px solid hsl(346, 88%, 25%);
+    color: #fff;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+main > .form-section > .form-content > button:hover {
+    background-color: hsl(346, 66%, 59%);
+    border: 4px solid #fff;
+    color: hsl(346, 88%, 25%);
+}

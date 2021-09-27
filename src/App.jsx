@@ -1,15 +1,16 @@
 import './App.css';
 import { Switch, Route } from 'react-router-dom';
 import GamePage from './pages/GamePage';
+import GameStartPage from './pages/GameStartPage';
 
 function App() {
   return (
     <Switch>
-      <Route path="/game">
+      <Route path="/game/:gameId">
         <GamePage />
       </Route>
       <Route path="/">
-        <GamePage />
+        <GameStartPage />
       </Route>
     </Switch>
   );

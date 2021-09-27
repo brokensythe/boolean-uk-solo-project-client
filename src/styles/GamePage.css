@@ -70,6 +70,10 @@ section {
     padding: 5vh 0;
 }
 
+.form-content > h2 {
+    color: white;
+}
+
 .indigo-dye {
     background: var(--indigo-dye);
 }

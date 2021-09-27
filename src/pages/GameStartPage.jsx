@@ -1,28 +1,9 @@
-import "../styles/GamePage.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import GameBoard from "../components/GameBoard";
-import { GAMES } from "../fetchURLS";
-import { useParams } from "react-router";
-import { useEffect, useRef, useState } from "react";
+import GameStartButton from "../components/GameStartButton";
+import "../styles/GameStartPage.css"
 
-function GamePage() {
-
-  const [board, setBoard] = useState(null)
-
-  const { gameId } = useParams()
-
-  const moveHistory = useRef([])
-
-  useEffect(() => {
-    fetch(GAMES + `/${gameId}`)
-    .then(res=>res.json())
-    .then(data => {
-      moveHistory.current = [...data.data.moves]
-      setBoard(data.data.Boards[0].board_info)
-    })
-  }, [gameId, setBoard])
-
+function GameStartPage() {
   return (
     <div className="top-block">
       <Header />
@@ -31,7 +12,7 @@ function GamePage() {
         </section>
         <section className="peach-crayola form-section">
             <div className="form-content">
-              {board ? <GameBoard gameId={gameId} board={board} setBoard={setBoard} moveHistory={moveHistory.current}/> : <h2>Loading ...</h2>}
+                <GameStartButton />
             </div>
           <div className="custom-shape-divider-top-1632298739">
             <svg
@@ -90,9 +71,9 @@ function GamePage() {
           </div>
         </section>
       </main>
-      <Footer />
+      <Footer />  
     </div>
   );
 }
 
-export default GamePage;
+export default GameStartPage;
