@@ -5,6 +5,7 @@ import GameBoard from "../components/GameBoard";
 import { GAMES } from "../fetchURLS";
 import { useParams } from "react-router";
 import { useEffect, useRef, useState } from "react";
+import GameInfo from "../components/GameInfo";
 
 function GamePage() {
 
@@ -13,6 +14,8 @@ function GamePage() {
   const { gameId } = useParams()
 
   const moveHistory = useRef([])
+
+  const turn = useRef("white")
 
   useEffect(() => {
     fetch(GAMES + `/${gameId}`)
@@ -23,6 +26,12 @@ function GamePage() {
     })
   }, [gameId, setBoard])
 
+  if (moveHistory.current.length) {
+    const lastPieceMoved = moveHistory.current[moveHistory.current.length - 1].pieceMoved
+
+    lastPieceMoved.includes("white") ? turn.current = "black" : turn.current = "white"
+}
+
   return (
     <div className="top-block">
       <Header />
@@ -31,7 +40,8 @@ function GamePage() {
         </section>
         <section className="peach-crayola form-section">
             <div className="form-content">
-              {board ? <GameBoard gameId={gameId} board={board} setBoard={setBoard} moveHistory={moveHistory.current}/> : <h2>Loading ...</h2>}
+              <GameInfo board={board} turn={turn.current} />
+              {board ? <GameBoard gameId={gameId} board={board} setBoard={setBoard} moveHistory={moveHistory.current} turn={turn.current}/> : <h2>Loading ...</h2>}
             </div>
           <div className="custom-shape-divider-top-1632298739">
             <svg

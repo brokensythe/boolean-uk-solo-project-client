@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import bishopMovement from "../bishopmoves";
 import { pieceMoves } from "../constants";
@@ -21,15 +21,7 @@ const Piece = styled.img`
     width: 100%
 `
 
-function GameBoard({ gameId, board, setBoard, moveHistory }) {
-
-    const turn = useRef("white")
-
-    if (moveHistory.length) {
-        const lastPieceMoved = moveHistory[moveHistory.length - 1].pieceMoved
-
-        lastPieceMoved.includes("white") ? turn.current = "black" : turn.current = "white"
-    }
+function GameBoard({ gameId, board, setBoard, moveHistory, turn }) {
 
     useEffect(() => {
         fetch(GAMES + `/${gameId}`, {
@@ -62,10 +54,10 @@ function GameBoard({ gameId, board, setBoard, moveHistory }) {
         const piece = data.split(",")[2]
         const moveKey = Object.keys(pieceMoves).find(key=>piece.includes(key))
 
-        if (!piece.includes(turn.current)) return
+        if (!piece.includes(turn)) return
 
         if (piece.includes("pawn")) {
-            pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fileIndex, rankIndex, setBoard })
+            pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fileIndex, rankIndex, setBoard, turn })
             return
         }
         if (piece.includes("bishop")) {
