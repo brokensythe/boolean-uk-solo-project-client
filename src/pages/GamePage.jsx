@@ -17,6 +17,8 @@ function GamePage() {
 
   const turn = useRef("white")
 
+  const patternArray = useRef([])
+
   useEffect(() => {
     fetch(GAMES + `/${gameId}`)
     .then(res=>res.json())
@@ -41,7 +43,7 @@ function GamePage() {
         <section className="peach-crayola form-section">
             <div className="form-content">
               <GameInfo board={board} turn={turn.current} />
-              {board ? <GameBoard gameId={gameId} board={board} setBoard={setBoard} moveHistory={moveHistory.current} turn={turn.current}/> : <h2>Loading ...</h2>}
+              {board ? <GameBoard gameId={gameId} board={board} setBoard={setBoard} moveHistory={moveHistory.current} turn={turn.current} patternArray={patternArray}/> : <h2>Loading ...</h2>}
             </div>
           <div className="custom-shape-divider-top-1632298739">
             <svg

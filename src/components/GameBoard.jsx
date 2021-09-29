@@ -5,6 +5,8 @@ import { pieceMoves } from "../constants";
 import { BOARDS, GAMES } from "../fetchURLS";
 import pawnMovement from "../pawnmoves";
 import rookMovement from "../rookmoves";
+import { fileToIndexNo, rankToIndexNo } from "../constants"
+import { inCheck } from "../helpers"
 
 
 const Board = styled.div`
@@ -21,7 +23,7 @@ const Piece = styled.img`
     width: 100%
 `
 
-function GameBoard({ gameId, board, setBoard, moveHistory, turn }) {
+function GameBoard({ gameId, board, setBoard, moveHistory, turn, patternArray }) {
 
     useEffect(() => {
         fetch(GAMES + `/${gameId}`, {
@@ -57,20 +59,20 @@ function GameBoard({ gameId, board, setBoard, moveHistory, turn }) {
         if (!piece.includes(turn)) return
 
         if (piece.includes("pawn")) {
-            pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fileIndex, rankIndex, setBoard, turn })
+            pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fileIndex, rankIndex, setBoard, turn, patternArray })
             return
         }
         if (piece.includes("bishop")) {
-            bishopMovement({ board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey })
+            bishopMovement({ board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey, turn, patternArray })
             return
         }
         if (piece.includes("rook")) {
-            rookMovement({ board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey })
+            rookMovement({ board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey, turn, patternArray  })
             return
         }
         if (piece.includes("queen")) {
-            bishopMovement({ board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey })
-            rookMovement({ board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey })
+            bishopMovement({ board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey, turn, patternArray })
+            rookMovement({ board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey, turn, patternArray  })
             return
         }
         else for (const offset of pieceMoves[moveKey]) {
@@ -87,6 +89,7 @@ function GameBoard({ gameId, board, setBoard, moveHistory, turn }) {
                 })
                 squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
                 squareToRemovePieceFrom.piece = ""
+                if (inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn, patternArray}).checked) return
                 setBoard(updatedBoard)
                 return
             }

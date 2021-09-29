@@ -1,7 +1,7 @@
 import { fileToIndexNo, rankToIndexNo } from "./constants"
 import { inCheck } from "./helpers"
 
-function pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fileIndex, rankIndex, setBoard, turn }) {
+function pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fileIndex, rankIndex, setBoard, turn, patternArray }) {
     let pawnMoves = [...pieceMoves[moveKey]]
     const lastMovePiece = moveHistory.length > 0 && moveHistory[moveHistory.length - 1].pieceMoved
     const rankMovedTo = moveHistory.length > 0 && Number(moveHistory[moveHistory.length - 1].squareMovedTo.split("")[1])
@@ -46,6 +46,7 @@ function pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fi
                     squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
                     squareToRemovePieceFrom.piece = ""
                     enPeasantSquare.piece = ""
+                    if (inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn, patternArray}).checked) return
                     setBoard(updatedBoard)
                     return
                 }
@@ -60,6 +61,7 @@ function pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fi
                     squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
                     squareToRemovePieceFrom.piece = ""
                     enPeasantSquare.piece = ""
+                    if (inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn, patternArray}).checked) return
                     setBoard(updatedBoard)
                     return
                 }
@@ -71,6 +73,7 @@ function pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fi
                 })
                 squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
                 squareToRemovePieceFrom.piece = ""
+                if (inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn, patternArray}).checked) return
                 setBoard(updatedBoard)
                 return
             }
@@ -90,7 +93,7 @@ function pawnMovement({ pieceMoves, moveKey, moveHistory, piece, board, y, x, fi
             })
             squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
             squareToRemovePieceFrom.piece = ""
-            inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn})
+            if (inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn, patternArray}).checked) return
             setBoard(updatedBoard)
             return
         }

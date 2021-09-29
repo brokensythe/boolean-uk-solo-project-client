@@ -1,4 +1,7 @@
-function backAndForwardOffsets({rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard}) {
+import { fileToIndexNo, rankToIndexNo } from "./constants"
+import { inCheck } from "./helpers"
+
+function backAndForwardOffsets({rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray}) {
     for (const offset of rookMoves) {
         const updatedBoard = JSON.parse(JSON.stringify(board))
         const squareToMovePieceTo = updatedBoard[rankIndex][fileIndex]
@@ -14,13 +17,14 @@ function backAndForwardOffsets({rookMoves, rankIndex, board, fileIndex, x, y, pi
             })
             squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
             squareToRemovePieceFrom.piece = ""
+            if (inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn, patternArray}).checked) return
             setBoard(updatedBoard)
             return
         }
     }
 }
 
-function leftAndRightOffsets({rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard}) {
+function leftAndRightOffsets({rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray}) {
     for (const offset of rookMoves) {
         const updatedBoard = JSON.parse(JSON.stringify(board))
         const squareToMovePieceTo = updatedBoard[rankIndex][fileIndex]
@@ -36,32 +40,33 @@ function leftAndRightOffsets({rookMoves, rankIndex, board, fileIndex, x, y, piec
             })
             squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
             squareToRemovePieceFrom.piece = ""
+            if (inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn, patternArray}).checked) return
             setBoard(updatedBoard)
             return
         }
     }
 }
 
-function rookMovement({rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey}) {
+function rookMovement({rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey, turn, patternArray}) {
     if (rankIndex - y > 0) {
         // straight back white, straight ahead black
         const rookMoves = pieceMoves[moveKey].straightAhead.slice(0, rankIndex - y)
-        backAndForwardOffsets({ rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard })
+        backAndForwardOffsets({ rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray })
     }
     if (rankIndex - y < 0) {
         // straight ahead white, straight back black
         const rookMoves = pieceMoves[moveKey].straightBack.slice(0, y - rankIndex)
-        backAndForwardOffsets({ rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard })
+        backAndForwardOffsets({ rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray })
     }
     if (fileIndex - x < 0) {
         // move left
         const rookMoves = pieceMoves[moveKey].moveLeft.slice(0, x - fileIndex)
-        leftAndRightOffsets({ rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard })
+        leftAndRightOffsets({ rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray })
     }
     if (fileIndex - x > 0) {
         // move right
         const rookMoves = pieceMoves[moveKey].moveRight.slice(0, fileIndex - x)
-        leftAndRightOffsets({ rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard })
+        leftAndRightOffsets({ rookMoves, rankIndex, board, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray })
     }
 }
 

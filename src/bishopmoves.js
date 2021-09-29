@@ -1,4 +1,7 @@
-function bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard}) {
+import { fileToIndexNo, rankToIndexNo } from "./constants"
+import { inCheck } from "./helpers"
+
+function bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard , turn, patternArray}) {
     for (const offset of bishopMoves) {
         const updatedBoard = JSON.parse(JSON.stringify(board))
         const squareToMovePieceTo = updatedBoard[rankIndex][fileIndex]
@@ -14,32 +17,33 @@ function bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, m
             })
             squareToMovePieceTo.piece = {...squareToRemovePieceFrom.piece, moves: squareToRemovePieceFrom.piece.moves + 1}
             squareToRemovePieceFrom.piece = ""
+            if (inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn, patternArray}).checked) return
             setBoard(updatedBoard)
             return
         }
     }
 }
 
-function bishopMovement({board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey}) {
+function bishopMovement({board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, pieceMoves, moveKey, turn, patternArray}) {
     if (piece.includes("white") ? fileIndex - x > 0 && rankIndex - y < 0 : fileIndex - x > 0 && rankIndex - y > 0) {
         // forward right
         const bishopMoves = pieceMoves[moveKey].forwardRight.slice(0, fileIndex - x)
-        bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard})
+        bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray})
     }
     if (piece.includes("white") ? fileIndex - x < 0 && rankIndex - y > 0 : fileIndex - x < 0 && rankIndex - y < 0) {
         // backwards left
         const bishopMoves = pieceMoves[moveKey].backwardsLeft.slice(0, x - fileIndex)
-        bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard})
+        bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray})
     }
     if (piece.includes("white") ? fileIndex - x < 0 && rankIndex - y < 0 : fileIndex - x < 0 && rankIndex - y > 0) {
         // forward left
         const bishopMoves = pieceMoves[moveKey].forwardLeft.slice(0, x - fileIndex)
-        bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard})
+        bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray})
     }
     if (piece.includes("white") ? fileIndex - x > 0 && rankIndex - y > 0 : fileIndex - x > 0 && rankIndex - y < 0) {
         // backwards right
         const bishopMoves = pieceMoves[moveKey].backwardsRight.slice(0, fileIndex - x)
-        bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard})
+        bishopOffsets({bishopMoves, board, rankIndex, fileIndex, x, y, piece, moveHistory, setBoard, turn, patternArray})
     }
 }
 

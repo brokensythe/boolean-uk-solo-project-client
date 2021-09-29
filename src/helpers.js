@@ -41,7 +41,33 @@ function unblockablePiecesCheckCheck({piece, turn, updatedBoard, whiteKingRankIn
     }
 }
 
-export function inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn}) {
+function blockablePiecesCheckCheck({piece, turn, updatedBoard, whiteKingRankIndex, whiteKingFileIndex, patternArray, checkingPieces, blackKingRankIndex, blackKingFileIndex}) {
+    for (const pattern in kingChecks[piece]) {
+        for (const check of kingChecks[piece][pattern]) {
+            if (turn === "white" && updatedBoard[whiteKingRankIndex - check.y] && updatedBoard[whiteKingRankIndex - check.y][whiteKingFileIndex + check.x] && updatedBoard[whiteKingRankIndex - check.y][whiteKingFileIndex + check.x].piece) {
+                patternArray.current.push(pattern)
+            }
+            if (patternArray.current.filter(item => item === pattern).length < 2 && turn === "white" && updatedBoard[whiteKingRankIndex - check.y] && updatedBoard[whiteKingRankIndex - check.y][whiteKingFileIndex + check.x] && updatedBoard[whiteKingRankIndex - check.y][whiteKingFileIndex + check.x].piece.name === `black ${piece}`) {
+                checkingPieces[updatedBoard[whiteKingRankIndex - check.y][whiteKingFileIndex + check.x].piece.name] = {
+                    rankIndex: whiteKingRankIndex - check.y,
+                    fileIndex: whiteKingFileIndex + check.x
+                }
+            }
+            if (turn === "black" && updatedBoard[blackKingRankIndex + check.y] && updatedBoard[blackKingRankIndex + check.y][blackKingFileIndex + check.x] && updatedBoard[blackKingRankIndex + check.y][blackKingFileIndex + check.x].piece) {
+                patternArray.current.push(pattern)
+            }
+            if (patternArray.current.filter(item => item === pattern).length < 2 && turn === "black" && updatedBoard[blackKingRankIndex + check.y] && updatedBoard[blackKingRankIndex + check.y][blackKingFileIndex + check.x] && updatedBoard[blackKingRankIndex + check.y][blackKingFileIndex + check.x].piece.name === `white ${piece}`) {
+                checkingPieces[updatedBoard[blackKingRankIndex + check.y][blackKingFileIndex + check.x].piece.name] = {
+                    rankIndex: blackKingRankIndex + check.y,
+                    fileIndex: blackKingFileIndex + check.x
+                }
+            }
+        }
+    }
+    patternArray.current = []
+}
+
+export function inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn, patternArray}) {
     let blackKingFile = null
     let blackKingRank = null
     let whiteKingFile = null
@@ -77,6 +103,16 @@ export function inCheck({updatedBoard, rankToIndexNo, fileToIndexNo, turn}) {
         if (piece === "knight") {
             unblockablePiecesCheckCheck({ piece, turn, updatedBoard, whiteKingRankIndex, whiteKingFileIndex, checkingPieces, blackKingRankIndex, blackKingFileIndex})
         }
+        if (piece === "bishop") {
+            blockablePiecesCheckCheck({ piece, turn, updatedBoard, whiteKingRankIndex, whiteKingFileIndex, patternArray, checkingPieces, blackKingRankIndex, blackKingFileIndex})
+        }
+        if (piece === "rook") {
+            blockablePiecesCheckCheck({ piece, turn, updatedBoard, whiteKingRankIndex, whiteKingFileIndex, patternArray, checkingPieces, blackKingRankIndex, blackKingFileIndex })
+        }
+        if (piece === "queen") {
+            blockablePiecesCheckCheck({ piece, turn, updatedBoard, whiteKingRankIndex, whiteKingFileIndex, patternArray, checkingPieces, blackKingRankIndex, blackKingFileIndex })
+        }
     }
     console.log("the checking pieces", checkingPieces, "if the current turn ends checked", Object.keys(checkingPieces).length > 0);
+    return { checkingPieces, checked: Object.keys(checkingPieces).length > 0 }
 }
